@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  employee-spring:
+    container_name: employee-spring
+    build: .
+    ports:
+      - "8080:8080"
+  employee:
+    container_name: employee
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: employee
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: pg_isready --username=postgres
+      interval: 10s
+      timeout: 5s
+      retries: 5
